@@ -1,19 +1,19 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
-// #include <WiFiClientSecure.h> // <-- Đã bỏ thư viện bảo mật
 
-//----Thông tin Wifi (Giữ nguyên của bạn)---------------
+
+// Wifi 
 const char* ssid = "DESKTOP-8CAC5FU 7464"; 
 const char* password = "^63Le203"; 
 
-//----Thông tin MQTT Broker (HiveMQ Public) ----
+// MQTT Broker (HiveMQ Public) 
 const char* mqtt_server = "broker.hivemq.com"; 
 const int mqtt_port = 1883;                 
-const char* mqtt_username = ""; // Server này không bắt buộc user
-const char* mqtt_password = ""; // Server này không bắt buộc pass
+const char* mqtt_username = ""; 
+const char* mqtt_password = ""; 
 //--------------------------------------------------
 
-WiFiClient espClient;           // <-- Dùng Client thường
+WiFiClient espClient;           // Client thường
 PubSubClient client(espClient);
 
 unsigned long lastMsg = 0;
@@ -72,7 +72,7 @@ void setup() {
   Serial.begin(9600);
   setup_wifi();
   
-  // espClient.setInsecure(); // <-- Đã bỏ dòng này
+  
   
   client.setServer(mqtt_server, mqtt_port);
   client.setCallback(callback);
