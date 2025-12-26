@@ -1,11 +1,11 @@
 #include <WiFi.h>
-#include <AsyncMQTT_ESP32.h> // Thư viện Async hỗ trợ QoS 0, 1, 2
+#include <AsyncMQTT_ESP32.h> 
 
-//----Thông tin Wifi---------------
+//Wifi-
 const char* ssid = "DESKTOP-8CAC5FU 7464"; 
 const char* password = "^63Le203"; 
 
-//----Thông tin MQTT Broker (HiveMQ Public) ----
+//MQTT Broker (HiveMQ Public)
 const char* mqtt_server = "broker.hivemq.com"; 
 const int mqtt_port = 1883;
 
@@ -39,7 +39,7 @@ void onWifiDisconnect(WiFiEvent_t event) {
 void onMqttConnect(bool sessionPresent) {
   Serial.println("Connected to MQTT.");
   
-  // --- THAY ĐỔI 1: Đăng ký nhận tin với QoS 2 ---
+  // Đăng ký nhận tin 
   mqttClient.subscribe("esp32/client", 2);
 }
 
@@ -64,7 +64,7 @@ void onMqttMessage(char* topic, char* payload, AsyncMqttClientMessageProperties 
 }
 
 void onMqttPublish(uint16_t packetId) {
-  // Hàm này chạy khi quy trình QoS 2 hoàn tất (Server đã nhận xong)
+  // Hàm này chạy khi Server đã nhận xong - Hoàn tất QoS2
   Serial.println("Publish acknowledged (QoS 2 success). PacketId: " + String(packetId));
 }
 
@@ -97,9 +97,9 @@ void loop() {
       value++;
       String message_to_send = String(value);
       
-      // --- THAY ĐỔI 2: GỬI VỚI QoS 2 ---
-      // Cú pháp: publish(topic, qos, retain, payload)
-      // Số 2 ở đây chính là QoS 2
+      
+      // gửi với cú pháp: publish(topic, qos, retain, payload)
+      //"2" là QoS 2
       uint16_t packetIdPub2 = mqttClient.publish("esp32/counter", 2, true, message_to_send.c_str());
       
       Serial.printf("Publishing at QoS 2, packetId: %d \n", packetIdPub2);
